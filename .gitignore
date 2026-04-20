@@ -1,0 +1,6 @@
+# Secrets
+js/firebase-config.js
+.env
+
+# OS
+.DS_Store
