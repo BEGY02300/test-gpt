@@ -7,39 +7,46 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>
-      <h1>🎙️ Web Radio du Collège</h1>
-      <p>Écoutez nos podcasts et émissions</p>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <header class="hero card">
+      <p class="badge">🎧 Web Radio du Collège</p>
+      <h1 id="hook-title">Chargement…</h1>
+      <p id="hook-subtitle">Préparation de l'accroche</p>
+      <a id="hook-link" class="ghost-button" href="#playlists">Découvrir les podcasts</a>
     </header>
 
     <main>
-      <section class="card">
-        <h2>Connexion</h2>
-        <p id="auth-status">Non connecté</p>
+      <section class="card" id="auth-card">
+        <h2>Connexion Firebase</h2>
+        <p id="auth-status" class="status">Non connecté</p>
 
         <div class="auth-buttons">
-          <button id="btn-anon">Connexion anonyme</button>
-          <button id="btn-google">Connexion Google</button>
+          <button id="btn-anon" type="button">Connexion anonyme</button>
+          <button id="btn-google" type="button">Connexion Google</button>
         </div>
 
-        <form id="email-form">
+        <form id="email-form" class="form-grid">
           <input type="email" id="email" placeholder="Email" required />
           <input type="password" id="password" placeholder="Mot de passe" required minlength="6" />
           <div class="auth-buttons">
-            <button type="submit" data-action="login">Se connecter</button>
+            <button type="submit">Se connecter</button>
             <button type="button" id="btn-register">Créer un compte</button>
-            <button type="button" id="btn-logout">Se déconnecter</button>
+            <button type="button" id="btn-logout" class="danger">Se déconnecter</button>
           </div>
         </form>
       </section>
 
-      <section class="card">
-        <h2>Playlists</h2>
-        <p>Les playlists sont gérées depuis le dossier <code>/playlists</code> de GitHub.</p>
+      <section class="card" id="playlists">
+        <div class="section-head">
+          <h2>Playlists</h2>
+          <p>Dossier GitHub: <code>/playlists</code></p>
+        </div>
         <div id="playlist-list"></div>
       </section>
 
-      <section class="card">
+      <section class="card player-card">
         <h2>Lecteur</h2>
         <p id="current-track">Aucune piste sélectionnée</p>
         <audio id="audio-player" controls preload="none"></audio>
@@ -47,7 +54,7 @@
     </main>
 
     <footer>
-      <small>Projet Web Radio — hébergeable via GitHub Pages</small>
+      <small>Projet Web Radio — prêt pour GitHub Pages</small>
     </footer>
 
     <script type="module" src="js/app.js"></script>

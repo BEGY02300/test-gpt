@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 import { auth, googleProvider } from "./firebase-init.js";
 
 const authStatus = document.getElementById("auth-status");
@@ -17,15 +17,23 @@ const emailForm = document.getElementById("email-form");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 
+const hookTitle = document.getElementById("hook-title");
+const hookSubtitle = document.getElementById("hook-subtitle");
+const hookLink = document.getElementById("hook-link");
+
 const playlistList = document.getElementById("playlist-list");
 const player = document.getElementById("audio-player");
 const currentTrack = document.getElementById("current-track");
+
+const showMessage = (message) => {
+  authStatus.textContent = message;
+};
 
 btnAnon.addEventListener("click", async () => {
   try {
     await signInAnonymously(auth);
   } catch (error) {
-    alert("Erreur connexion anonyme: " + error.message);
+    showMessage("Erreur anonyme: " + error.message);
   }
 });
 
@@ -33,7 +41,7 @@ btnGoogle.addEventListener("click", async () => {
   try {
     await signInWithPopup(auth, googleProvider);
   } catch (error) {
-    alert("Erreur connexion Google: " + error.message);
+    showMessage("Erreur Google: " + error.message);
   }
 });
 
@@ -42,7 +50,7 @@ emailForm.addEventListener("submit", async (event) => {
   try {
     await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
   } catch (error) {
-    alert("Erreur connexion email/mot de passe: " + error.message);
+    showMessage("Erreur email/mot de passe: " + error.message);
   }
 });
 
@@ -50,7 +58,7 @@ btnRegister.addEventListener("click", async () => {
   try {
     await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
   } catch (error) {
-    alert("Erreur création de compte: " + error.message);
+    showMessage("Erreur création de compte: " + error.message);
   }
 });
 
@@ -60,13 +68,28 @@ btnLogout.addEventListener("click", async () => {
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    authStatus.textContent = "Non connecté";
+    showMessage("Non connecté");
     return;
   }
 
   const mode = user.isAnonymous ? "anonyme" : "identifié";
-  authStatus.textContent = `Connecté (${mode}) : ${user.email ?? user.uid}`;
+  showMessage(`Connecté (${mode}) : ${user.email ?? user.uid}`);
 });
+
+async function loadHook() {
+  try {
+    const response = await fetch("./accroche/accroche.json");
+    if (!response.ok) throw new Error("accroche introuvable");
+    const data = await response.json();
+    hookTitle.textContent = data.title;
+    hookSubtitle.textContent = data.subtitle;
+    hookLink.textContent = data.ctaLabel;
+    hookLink.href = data.ctaHref;
+  } catch {
+    hookTitle.textContent = "La voix du collège, partout";
+    hookSubtitle.textContent = "Retrouve toutes les émissions de la web radio.";
+  }
+}
 
 async function loadPlaylists() {
   try {
@@ -103,4 +126,5 @@ async function loadPlaylists() {
   }
 }
 
+loadHook();
 loadPlaylists();

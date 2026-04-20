@@ -1,77 +1,191 @@
 :root {
-  color-scheme: light;
+  --bg: #071227;
+  --card: rgba(15, 31, 58, 0.8);
+  --card-border: rgba(136, 170, 255, 0.35);
+  --text: #e8efff;
+  --muted: #b6c8ed;
+  --primary: #4f9cff;
+  --primary-dark: #2f6fdf;
+  --danger: #ca3f56;
+  color-scheme: dark;
   font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: #f5f7fb;
-  color: #102030;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #102549 0%, var(--bg) 65%);
+  color: var(--text);
+  position: relative;
+  overflow-x: hidden;
 }
 
-header, footer {
-  text-align: center;
-  padding: 1rem;
-  background: #17335c;
-  color: white;
+.bg-orb {
+  position: fixed;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb-1 {
+  background: #1ec8ff;
+  top: -120px;
+  right: -90px;
+}
+
+.orb-2 {
+  background: #6f6dff;
+  bottom: -120px;
+  left: -90px;
+}
+
+main,
+header,
+footer {
+  position: relative;
+  z-index: 1;
 }
 
 main {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 1rem auto;
-  padding: 0 1rem 2rem;
+  padding: 0 1rem 2.5rem;
   display: grid;
   gap: 1rem;
 }
 
 .card {
-  background: white;
-  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
   padding: 1rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.hero {
+  max-width: 1000px;
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(79, 156, 255, 0.2);
+  color: #a8cbff;
+  font-size: 0.9rem;
+}
+
+h1 {
+  margin-bottom: 0.35rem;
+}
+
+.status {
+  color: var(--muted);
 }
 
 .auth-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 0.5rem 0;
+  margin: 0.8rem 0;
 }
 
-button {
+button,
+.ghost-button {
   border: 0;
-  border-radius: 8px;
-  padding: 0.6rem 0.9rem;
-  cursor: pointer;
-  background: #275ea8;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.danger {
+  background: linear-gradient(120deg, #db4b63 0%, var(--danger) 100%);
+}
+
+.form-grid input {
+  width: 100%;
+  margin: 0.3rem 0;
+  border: 1px solid rgba(167, 193, 255, 0.35);
+  border-radius: 10px;
+  padding: 0.7rem;
+  background: rgba(7, 18, 39, 0.5);
   color: white;
 }
 
-input {
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0.25rem 0;
-  border: 1px solid #ccd7ea;
-  border-radius: 8px;
-  padding: 0.6rem;
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.8rem;
+  flex-wrap: wrap;
 }
 
 .playlist {
-  border: 1px solid #dbe4f2;
-  border-radius: 8px;
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
+  border: 1px solid rgba(136, 170, 255, 0.35);
+  border-radius: 12px;
+  padding: 0.9rem;
+  margin-bottom: 0.8rem;
+  background: rgba(7, 18, 39, 0.35);
 }
 
 .track {
   display: block;
-  background: #eef3fc;
-  color: #163866;
-  margin: 0.35rem 0;
+  width: 100%;
+  text-align: left;
+  margin: 0.4rem 0;
+}
+
+audio {
+  width: 100%;
 }
 
 code {
-  background: #edf2fc;
-  padding: 0.1rem 0.35rem;
-  border-radius: 4px;
+  background: rgba(7, 18, 39, 0.6);
+  padding: 0.12rem 0.35rem;
+  border-radius: 6px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding-bottom: 1.2rem;
+}
+
+/* Effets pointeur seulement sur appareils avec souris */
+@media (hover: hover) and (pointer: fine) {
+  button,
+  .ghost-button {
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+
+  button:hover,
+  .ghost-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.07);
+  }
+}
+
+/* Sur mobile: pas d'effet de pointeur/survol */
+@media (hover: none) {
+  button,
+  .ghost-button {
+    cursor: default;
+    transition: none;
+  }
 }
