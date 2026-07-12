@@ -1,55 +1,30 @@
-# Web Radio du Collège
+# ToolHub
 
-Site web pour écouter les podcasts de la web radio avec authentification Firebase.
+ToolHub est une base open source MIT pour une plateforme web premium d'outils gratuits, rapide, responsive et prête à évoluer vers React, TypeScript, Vite, TailwindCSS, Framer Motion, Firebase, Stripe et AdSense.
 
-## Ce qui est en place
+## Fonctionnalités incluses
 
-- Interface plus moderne et mobile-friendly
-- Section d'accroche éditable via dossier `accroche/`
-- Connexion Firebase: anonyme, Google, email/mot de passe
-- Playlists chargées depuis `playlists/manifest.json`
-- Prêt pour publication GitHub Pages
+- Landing page premium responsive avec dark/light mode, glassmorphism, recherche instantanée et catalogue d'outils.
+- Intégration Firebase Authentication sans clé personnelle versionnée : Google, GitHub, Yahoo, Apple et email/mot de passe sont préparés.
+- Documentation d'architecture pour Firestore, sécurité, Premium Stripe, AdSense, PWA, Cloudflare et système de plugins.
+- Règles Firestore de départ dans `firebase/firestore.rules`.
+- CI GitHub Actions avec vérification HTML/CSS/JS légère.
 
-## 1) Modifier l'accroche (headline)
+## Démarrage local
 
-Édite le fichier `accroche/accroche.json`:
-
-```json
-{
-  "title": "Ton titre",
-  "subtitle": "Ton sous-titre",
-  "ctaLabel": "Texte du bouton",
-  "ctaHref": "#playlists"
-}
+```bash
+python3 -m http.server 4173
 ```
 
-## 2) Gérer les playlists via GitHub
+Ouvre ensuite `http://localhost:4173`.
 
-Le site lit `playlists/manifest.json`.
+## Configuration Firebase
 
-Exemple:
+1. Copie `js/firebase-config.example.js` vers `js/firebase-config.js`.
+2. Remplis les valeurs publiques Firebase Web App.
+3. Active les fournisseurs souhaités dans Firebase Console.
+4. Ne versionne jamais `js/firebase-config.js`.
 
-```json
-[
-  {
-    "name": "Matinale",
-    "tracks": [
-      { "title": "Épisode 1", "file": "playlists/matinale/episode-1.mp3" }
-    ]
-  }
-]
-```
+## Feuille de route production
 
-## 3) Firebase
-
-La config est dans `js/firebase-init.js` avec les valeurs fournies, pour démarrer directement.
-
-⚠️ Important sécurité: si la clé/API a été exposée publiquement, fais une rotation dans Firebase Console et remplace les valeurs.
-
-## 4) Publication GitHub Pages
-
-1. Push le dépôt sur GitHub.
-2. Ouvre `Settings > Pages`.
-3. `Deploy from a branch`.
-4. Branche: `main` (ou ta branche), dossier `/ (root)`.
-5. Sauvegarde et attends l'URL publique.
+Consulte `docs/architecture.md` pour le modèle Firestore, les fonctions Cloud Functions, la stratégie Stripe/AdSense, la sécurité, le stockage image et l'API interne de plugins.
