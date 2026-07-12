@@ -1,60 +1,121 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web Radio du Collège</title>
+    <meta name="description" content="ToolHub regroupe des outils gratuits, rapides et sécurisés pour calculer, convertir, développer, apprendre et créer directement dans le navigateur." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.githubusercontent.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="theme-color" content="#070812" />
+    <title>ToolHub — outils gratuits premium</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="js/firebase-config.js" defer></script>
   </head>
   <body>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="bg-orb orb-1" aria-hidden="true"></div>
+    <div class="bg-orb orb-2" aria-hidden="true"></div>
+    <div class="bg-orb orb-3" aria-hidden="true"></div>
 
-    <header class="hero card">
-      <p class="badge">🎧 Web Radio du Collège</p>
-      <h1 id="hook-title">Chargement…</h1>
-      <p id="hook-subtitle">Préparation de l'accroche</p>
-      <a id="hook-link" class="ghost-button" href="#playlists">Découvrir les podcasts</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Accueil ToolHub"><span>⌘</span>ToolHub</a>
+      <nav aria-label="Navigation principale">
+        <a href="#tools">Outils</a>
+        <a href="#security">Sécurité</a>
+        <a href="#premium">Premium</a>
+        <a href="#developers">Développeurs</a>
+      </nav>
+      <button id="theme-toggle" class="icon-button" type="button" aria-label="Changer de thème">☾</button>
     </header>
 
-    <main>
-      <section class="card" id="auth-card">
-        <h2>Connexion Firebase</h2>
-        <p id="auth-status" class="status">Non connecté</p>
-
-        <div class="auth-buttons">
-          <button id="btn-anon" type="button">Connexion anonyme</button>
-          <button id="btn-google" type="button">Connexion Google</button>
-        </div>
-
-        <form id="email-form" class="form-grid">
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Mot de passe" required minlength="6" />
-          <div class="auth-buttons">
-            <button type="submit">Se connecter</button>
-            <button type="button" id="btn-register">Créer un compte</button>
-            <button type="button" id="btn-logout" class="danger">Se déconnecter</button>
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Plateforme open source • Firebase • PWA-ready</p>
+          <h1>Des dizaines d'outils gratuits dans une interface premium ultra-rapide.</h1>
+          <p class="hero-text">ToolHub réunit calculatrices, outils développeur, gaming, école, aviation et informatique avec une expérience inspirée d'Apple, Arc, Discord, GitHub et Vercel.</p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#tools">Explorer les outils</a>
+            <a class="secondary-button" href="#auth">Créer un compte</a>
           </div>
-        </form>
-      </section>
-
-      <section class="card" id="playlists">
-        <div class="section-head">
-          <h2>Playlists</h2>
-          <p>Dossier GitHub: <code>/playlists</code></p>
+          <div class="metrics" aria-label="Indicateurs plateforme">
+            <span><strong>45+</strong> outils prévus</span>
+            <span><strong>100%</strong> responsive</span>
+            <span><strong>CSP</strong> stricte</span>
+          </div>
         </div>
-        <div id="playlist-list"></div>
+        <div class="hero-panel glass-card">
+          <div class="window-bar"><span></span><span></span><span></span></div>
+          <label for="search-input">Recherche instantanée</label>
+          <input id="search-input" type="search" placeholder="JSON, IMC, QR Code, quiz…" autocomplete="off" />
+          <div id="quick-results" class="quick-results" aria-live="polite"></div>
+        </div>
       </section>
 
-      <section class="card player-card">
-        <h2>Lecteur</h2>
-        <p id="current-track">Aucune piste sélectionnée</p>
-        <audio id="audio-player" controls preload="none"></audio>
+      <section id="auth" class="grid-section">
+        <article class="glass-card auth-card">
+          <p class="section-kicker">Authentification Firebase</p>
+          <h2>Compte personnel, sessions et fournisseurs liés.</h2>
+          <p id="auth-status" class="status">Firebase attend une configuration locale.</p>
+          <div class="provider-grid">
+            <button data-provider="google" type="button">Google</button>
+            <button data-provider="github" type="button">GitHub</button>
+            <button data-provider="yahoo" type="button">Yahoo</button>
+            <button data-provider="phone" type="button">Téléphone</button>
+            <button data-provider="apple" type="button">Apple</button>
+            <button data-provider="email" type="button">Email</button>
+          </div>
+          <form id="email-form" class="form-grid">
+            <input type="email" id="email" placeholder="email@exemple.com" autocomplete="email" />
+            <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password" minlength="6" />
+            <div class="auth-actions">
+              <button type="submit">Connexion</button>
+              <button type="button" id="btn-register">Inscription</button>
+              <button type="button" id="btn-reset">Mot de passe oublié</button>
+              <button type="button" id="btn-logout" class="danger">Déconnexion</button>
+            </div>
+          </form>
+        </article>
+        <article class="glass-card profile-card">
+          <div class="banner"></div>
+          <div class="avatar">TH</div>
+          <h3>Profil premium</h3>
+          <p>Pseudo unique, bio, badges, comptes liés, statistiques, favoris et historique synchronisé.</p>
+          <div id="username-suggestions" class="chips"></div>
+        </article>
+      </section>
+
+      <section id="tools" class="section-block">
+        <div class="section-title">
+          <p class="section-kicker">Catalogue modulaire</p>
+          <h2>Outils intégrés et extensibles par plugins.</h2>
+        </div>
+        <div id="tool-grid" class="tool-grid"></div>
+      </section>
+
+      <section id="security" class="feature-grid">
+        <article class="glass-card"><h3>Sécurité</h3><p>XSS, CSRF, clickjacking, CSP, validation serveur, reCAPTCHA, journaux d'abus et aucune clé sensible côté client.</p></article>
+        <article class="glass-card"><h3>Performance</h3><p>Lazy loading, code splitting prévu, cache, CDN, Brotli, images WebP et service worker documenté.</p></article>
+        <article class="glass-card"><h3>Base de données</h3><p>Collections Firestore structurées : Users, Profiles, Settings, Favorites, History, Tools, Reports, Stats et Logs.</p></article>
+      </section>
+
+      <section id="premium" class="premium glass-card">
+        <div>
+          <p class="section-kicker">Stripe + AdSense</p>
+          <h2>Premium supprime les pubs et débloque des avantages.</h2>
+          <p>Abonnement mensuel ou annuel, badge Premium, thèmes exclusifs, avatars, historique illimité et priorité de traitement.</p>
+        </div>
+        <a class="primary-button" href="#developers">Voir l'architecture</a>
+      </section>
+
+      <section id="developers" class="section-block docs-panel">
+        <p class="section-kicker">Open source MIT</p>
+        <h2>Prêt pour évoluer vers React, Vite, Cloud Functions et Firebase Hosting.</h2>
+        <p>Cette base statique fournit l'interface, la configuration sans secrets, un catalogue de plugins et une documentation de production pour lancer le développement complet.</p>
       </section>
     </main>
 
     <footer>
-      <small>Projet Web Radio — prêt pour GitHub Pages</small>
+      <small>ToolHub — plateforme d'outils gratuite, rapide, sécurisée et évolutive.</small>
     </footer>
 
     <script type="module" src="js/app.js"></script>
